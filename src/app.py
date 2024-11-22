@@ -14,7 +14,10 @@ class MessageProcessor:
         if not isinstance(commit, models.ComAtprotoSyncSubscribeRepos.Commit):
             return
         post_text = self._extract_posts(commit)
-        self.analyzer.analyze(post_text)
+        if not post_text:
+            return
+        sentiment = self.analyzer.analyze(post_text)
+        print(post_text, sentiment)
 
 
     def _extract_posts(self, commit: models.ComAtprotoSyncSubscribeRepos.Commit) -> str | None:
